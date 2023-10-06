@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h3>Teclea el nombre de un videojuego</h3>
+    <p>Sugerencias:
+        <span id="txtSugerencias"></span> </p>
+    <p>nombre: <input type="text" id="txt1" onkeyup="mostrarSugerencias(this.value)"></p>
+
+    <script>
+        function mostrarSugerencias(str){
+            if(str.lenght == 0){
+                document.getElementById("txtSugerencias").innerHTML = "";
+                return;
+            }
+
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function(){
+                document.getElementById("txtSugerencias").innerHTML = this.responseText;
+            }
+
+            xhttp.open("GET", "sugerencia.php?q=" + str);
+            xhttp.send();
+        }
+    </script>
+
+   
+</body>
+
+</html>
