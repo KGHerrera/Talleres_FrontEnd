@@ -1,4 +1,0 @@
-services:
-  - name: my-php-app
-    buildCommand: composer install
-    startCommand: php -S 0.0.0.0:8080 -t public

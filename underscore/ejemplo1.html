@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script src="underscore.js"></script>
+	<title>Undersocre</title>
+	<style>
+		table, th, td{
+			border: 1px solid black;
+			padding: 12px;
+			cursor: pointer;
+		}
+		.tarjeta{
+			position: relative;
+			margin-top: 25px;
+			width: 350px;
+			height: 200px;
+			background-color: blue;
+			padding: 50px;
+			border-radius: 20px;
+		}
+		.usuario{
+			width: 100px;
+			height: 100px;
+		}
+		.contenido{
+			color: white;
+			font-size: 150%;
+			margin: 20px;
+			font-weight: bold;
+		}
+		button{
+			margin: 20px;
+		}
+	</style>
+</head>
+<body>
+	<table id="tabla">
+	</table>
+	<div id="contenedor"></div>
+	<button id="exc">Mostrar excelentes</button>
+	<button id="nom">Ordenar por nombre</button>
+	<button id="cal">Ordenar por calificación</button>
+<script type="text/javascript">
+	var tarjeta;
+	(function($){
+		var alumnos = [["Cesar Ramírez", 70], ["Denise Morales", 70], ["José Enrique Herrera", 100], ["Lauro Alejandro Berumen", 70], ["Luke Skywalker", 90], ["Salvador Acevedo", 95], ["Lulú", 50]];
+		var tabla = _.template("<tr onclick='crearTarjeta(\"<%- nombre %>\", <%- calif %>)'><th><%- numero %></th><th><%- nombre %></th></tr>");
+		tarjeta = _.template("<div class='tarjeta'><img src='https://cdn-icons-png.flaticon.com/512/1077/1077114.png' class='usuario'><div class='contenido'><%- nombre %><br><br>Calificación: <%- calif %></div></div>");
+
+		_.each(alumnos, function(alumno, index, alumnos){
+			$("#tabla").append(tabla({numero: (parseInt(index)+1), nombre: alumno[0], calif: alumno[1]}));
+		});
+
+		$("#exc").on("click", function(){
+			$("#tabla").html("");
+			var excelentes = _.reject(alumnos, function(x){return x[1]<90})
+			_.each(excelentes, function(excelente, index){
+				$("#tabla").append(tabla({numero: (parseInt(index)+1), nombre: excelente[0], calif: excelente[1]}));
+			});
+		});
+
+		$("#nom").on("click", function(){
+			$("#tabla").html("");
+			var excelentes = _.sortBy(alumnos, function(x){return x[0]})
+			_.each(excelentes, function(excelente, index){
+				$("#tabla").append(tabla({numero: (parseInt(index)+1), nombre: excelente[0], calif: excelente[1]}));
+			});
+		});
+
+		$("#cal").on("click", function(){
+			$("#tabla").html("");
+			var excelentes = _.sortBy(alumnos, function(x){return (100-x[1])})
+			_.each(excelentes, function(excelente, index){
+				$("#tabla").append(tabla({numero: (parseInt(index)+1), nombre: excelente[0], calif: excelente[1]}));
+			});
+		});
+	})(jQuery);
+
+	function crearTarjeta(nombre, calif){
+		$("#contenedor").html(tarjeta({nombre: nombre, calif: calif}));
+	}
+</script>
+</body>
+</html>
